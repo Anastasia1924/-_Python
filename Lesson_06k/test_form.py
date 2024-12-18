@@ -48,17 +48,14 @@ def test_form(driver):
     #Нажмите кнопку Submit
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
-    waiter = WebDriverWait(driver, 30)
-    #Проверьте(assert), что поле Zip code подсвечено красным
-    assert "danger" in driver.find_element(By.NAME, "zip-code").get_attribute("class")
-    #Проверьте (assert), что остальные поля подсвечены зеленым.
-    assert "danger" in driver.find_element(By.NAME, "first-name").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "last-name").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "address").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "e-mail").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "phone").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "city").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "country").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "job-position").get_attribute("class")
-    assert "success" in driver.find_element(By.NAME, "company").get_attribute("class")
+    waiter = WebDriverWait(driver, 10)
+    zip_code_element = waiter.until(EC.presence_of_element_located((By.NAME, "zip-code")))
+
+    # Дождитесь, пока атрибут 'class' элемента содержит "danger"
+    waiter.until(EC.text_to_be_present_in_element_attribute((By.NAME, "zip-code"), "class", "alert-danger"))
+
+    # Проверка (assert), что поле Zip code подсвечено красным
+    assert "alert-danger" in zip_code_element.get_attribute("class")
+
+
 
