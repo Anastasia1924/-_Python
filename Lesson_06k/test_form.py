@@ -48,14 +48,16 @@ def test_form(driver):
     #Нажмите кнопку Submit
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
-    waiter = WebDriverWait(driver, 10)
-    zip_code_element = waiter.until(EC.presence_of_element_located((By.NAME, "zip-code")))
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "#zip-code.alert-danger")))
 
-    # Дождитесь, пока атрибут 'class' элемента содержит "danger"
-    waiter.until(EC.text_to_be_present_in_element_attribute((By.NAME, "zip-code"), "class", "alert-danger"))
+    zip_code_field = driver.find_element(By.CSS_SELECTOR, "#zip-code")
 
-    # Проверка (assert), что поле Zip code подсвечено красным
-    assert "alert-danger" in zip_code_element.get_attribute("class")
+    # Проверьте(assert), что поле Zip code подсвечено красным
+    assert "alert-danger" in zip_code_field.get_attribute("class")
+    # Проверьте (assert), что остальные поля подсвечены зеленым.
+    green_fields = driver.find_elements(By.CSS_SELECTOR, ".alert-success")
+    assert len(green_fields) == 9
 
 
 
