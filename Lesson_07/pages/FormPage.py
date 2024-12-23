@@ -47,3 +47,11 @@ class FormPage:
         self._driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
         WebDriverWait(self._driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "main")))
+
+    def get_class_red(self):
+        zip_code_field = self._driver.find_element(By.CSS_SELECTOR, "#zip-code").get_attribute("class")
+        return zip_code_field
+
+    def get_class_green(self):
+        green_fields = self._driver.find_elements(By.CSS_SELECTOR, ".alert-success")
+        return green_fields

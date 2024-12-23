@@ -6,7 +6,7 @@ from pages.FormPage import FormPage
 def test_page_object():
     driver = webdriver.Chrome()
 
-    form_page = FormPage
+    form_page = FormPage(driver)
 
     form_page.open_form()
     form_page.send_first_name("Иван")
@@ -20,3 +20,11 @@ def test_page_object():
     form_page.send_job("QA")
     form_page.send_company("SkyPro")
     form_page.click_submit_button()
+
+    zip_code_field = form_page.get_class_red()
+    assert "alert-danger" in zip_code_field
+
+    green_fields = form_page.get_class_green()
+    assert len(green_fields) == 9
+
+    driver.quit()
